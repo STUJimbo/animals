@@ -21,9 +21,6 @@ import java.sql.SQLIntegrityConstraintViolationException;
 public class GlobalExceptionHandler {
     /**
      * 处理重复异常的方法
-     *
-     * @param ex
-     * @return
      */
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public R<String> exceptionHandler(SQLIntegrityConstraintViolationException ex) {
@@ -40,9 +37,6 @@ public class GlobalExceptionHandler {
 
     /**
      * 处理自定义异常的处理方法
-     *
-     * @param ex
-     * @return
      */
     @ExceptionHandler(CustomException.class)
     public R<String> exceptionHandler(CustomException ex) {

@@ -19,8 +19,6 @@ import java.util.List;
 public class WebMvcConfig extends WebMvcConfigurationSupport {
     /**
      * 设置静态资源映射
-     *
-     * @param registry
      */
     @Override
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -35,8 +33,6 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     /**
      * 扩展MVC框架的消息转换器
-     *
-     * @param converters
      */
     @Override
     protected void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -48,23 +44,4 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         // 将上面的消息转换器对象追加到MVC框架的转化器集合中
         converters.add(0, messageConverter);
     }
-
-    /* @Bean
-    public Docket createRestApi() {
-        // 文档类型
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("com.itheima.reggie.controller"))
-                .paths(PathSelectors.any())
-                .build();
-    }
-
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("宠物网")
-                .version("1.0")
-                .description("宠物网接口文档")
-                .build();
-    } */
 }

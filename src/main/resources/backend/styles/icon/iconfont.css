@@ -1,8 +1,8 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 2552591 */
-  src: url('iconfont.woff2?t=1621231825060') format('woff2'),
-       url('iconfont.woff?t=1621231825060') format('woff'),
-       url('iconfont.ttf?t=1621231825060') format('truetype');
+  font-family: "iconfont"; /* Project id 3814976 */
+  src: url('iconfont.woff2?t=1670427508496') format('woff2'),
+       url('iconfont.woff?t=1670427508496') format('woff'),
+       url('iconfont.ttf?t=1670427508496') format('truetype');
 }
 
 .iconfont {
@@ -13,31 +13,35 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-category:before {
-  content: "\e606";
-}
-
-.icon-member:before {
-  content: "\e607";
-}
-
-.icon-user:before {
-  content: "\e608";
-}
-
-.icon-order:before {
-  content: "\e609";
-}
-
-.icon-combo:before {
-  content: "\e60a";
+.icon-dingdan:before {
+  content: "\e600";
 }
 
 .icon-lock:before {
-  content: "\e60b";
+  content: "\e6c0";
 }
 
-.icon-food:before {
-  content: "\2605";
+.icon-user:before {
+  content: "\e7ae";
+}
+
+.icon-type:before {
+  content: "\e61a";
+}
+
+.icon-members:before {
+  content: "\e613";
+}
+
+.icon-combo:before {
+  content: "\e7fd";
+}
+
+.icon-wupinguanli:before {
+  content: "\e6ce";
+}
+
+.icon-chongwudangan:before {
+  content: "\e615";
 }
 

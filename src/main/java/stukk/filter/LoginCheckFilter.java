@@ -1,10 +1,10 @@
 package stukk.filter;
 
 import com.alibaba.fastjson.JSON;
-import stukk.common.BaseContext;
-import stukk.common.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.AntPathMatcher;
+import stukk.common.BaseContext;
+import stukk.common.R;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
@@ -49,7 +49,8 @@ public class LoginCheckFilter implements Filter {
                 "/animal/**",
                 "/blog/**",
                 "/",
-                "/index"
+                "/index",
+                "/admin"
         };
 
         // 2.判断本次请求是否需要处理
@@ -94,7 +95,6 @@ public class LoginCheckFilter implements Filter {
      *
      * @param requestURI 本次请求
      * @param urls       不需要处理的请求路径
-     * @return
      */
     public boolean check(String[] urls, String requestURI) {
         for (String url : urls) {

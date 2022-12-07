@@ -37,8 +37,6 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
 
     /**
      * 用户下单
-     *
-     * @param orders
      */
     @Override
     public void submit(Orders orders) {
@@ -71,8 +69,9 @@ public class OrdersServiceImpl extends ServiceImpl<OrdersMapper, Orders> impleme
             OrderDetail orderDetail = new OrderDetail();
             orderDetail.setOrderId(orderId);
             orderDetail.setNumber(item.getNumber());
-            orderDetail.setDishFlavor(item.getDishFlavor());
-            orderDetail.setDishId(item.getDishId());
+            orderDetail.setPetId(item.getPetId());
+            orderDetail.setPetPrefers(item.getPetPrefer());
+            orderDetail.setGoodId(item.getGoodId());
             orderDetail.setSetmealId(item.getSetmealId());
             orderDetail.setName(item.getName());
             orderDetail.setImage(item.getImage());

@@ -1,21 +1,30 @@
-//获取所有的菜品分类
+//获取所有的分类信息
 function categoryListApi() {
     return $axios({
-      'url': '/category/list',
+      'url': '/type/list',
       'method': 'get',
     })
   }
 
-//获取菜品分类对应的菜品
+//获取宠物分类对应的数据
 function dishListApi(data) {
     return $axios({
-        'url': '/dish/list',
+        'url': '/pet/list',
         'method': 'get',
         params:{...data}
     })
 }
 
-//获取菜品分类对应的套餐
+// 获取物品分类对应的数据
+function goodsListApi(data) {
+    return $axios({
+        'url':'/good/list',
+        'method': 'get',
+        params:{...data}
+    })
+}
+
+//获取套餐分类对应的套餐
 function setmealListApi(data) {
     return $axios({
         'url': '/setmeal/list',
@@ -60,10 +69,10 @@ function clearCartApi() {
     })
 }
 
-//获取套餐的全部菜品
+//获取套餐的全部信息
 function setMealDishDetailsApi(id) {
     return $axios({
-        'url': `/setmeal/dish/${id}`,
+        'url': `/setmeal/goods/${id}`,
         'method': 'get',
     })
 }

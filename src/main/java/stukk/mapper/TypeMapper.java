@@ -1,13 +1,13 @@
 package stukk.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import stukk.entity.Dish;
+import stukk.entity.Type;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * @author wenli
- * @create 2022-09-01 18:06
+ * @create 2022-09-01 16:12
  */
 @Mapper
-public interface DishMapper extends BaseMapper<Dish> {
+public interface TypeMapper extends BaseMapper<Type> {
 }

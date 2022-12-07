@@ -1,6 +1,10 @@
 package stukk.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import stukk.common.R;
 import stukk.entity.User;
 import stukk.service.UserService;
@@ -21,7 +25,9 @@ import java.util.concurrent.TimeUnit;
 /**
  * @author wenli
  * @create 2022-09-03 17:41
+ * 用户管理
  */
+@Api(tags = "用户登录管理（UserController）")
 @RestController
 @RequestMapping("/user")
 @Slf4j
@@ -36,11 +42,13 @@ public class UserController {
      * 发送手机短信验证码
      *
      * @param user
-     * @param session
      * @return
      */
+    @ApiOperation(value = "发送四位验证码-sendMsg")
     @PostMapping("/sendMsg")
-    public R<String> sendMsg(@RequestBody User user, HttpSession session) {
+    public R<String> sendMsg(
+            @ApiParam(value = "用户对象", required = true)
+            @RequestBody User user) {
         // 获取手机号
         String phone = user.getPhone();
 
@@ -65,14 +73,20 @@ public class UserController {
     }
 
 
+    @ApiOperation(value = "用户退出登录-loginout")
     @PostMapping("/loginout")
-    public R<String> loginout(HttpSession session){
+    public R<String> loginout(
+            HttpSession session) {
         session.removeAttribute("user");
         return R.success("退出成功");
     }
 
+    @ApiOperation(value = "用户登录-login")
     @PostMapping("/login")
-    public R<User> login(@RequestBody Map<String, String> map, HttpSession session) {
+    public R<User> login(@ApiParam(value = "用户登录数据", required = true)
+                         @RequestBody Map<String, String> map,
+                         @ApiParam(value = "HttpSession对象")
+                         HttpSession session) {
         // 获取手机号
         String phone = map.get("phone");
         // 获取验证码

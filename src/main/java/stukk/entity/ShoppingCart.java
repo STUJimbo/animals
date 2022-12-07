@@ -1,6 +1,10 @@
 package stukk.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -8,36 +12,43 @@ import java.time.LocalDateTime;
 /**
  * 购物车
  */
+@Api(value = "购物车实体（ShoppingCart）")
 @Data
+@TableName("tb_shopping_cart")
 public class ShoppingCart implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
     private Long id;
 
-    //名称
+    @ApiModelProperty(value = "名称")
     private String name;
 
-    //用户id
+    @ApiModelProperty(value = "用户id")
     private Long userId;
 
-    //菜品id
-    private Long dishId;
+    @ApiModelProperty(value = "宠物id")
+    private Long petId;
 
-    //套餐id
+    @ApiModelProperty(value = "物品id")
+    private Long goodId;
+
+    @ApiModelProperty(value = "套餐id")
     private Long setmealId;
 
-    //口味
-    private String dishFlavor;
+    @ApiModelProperty(value = "宠物配置")
+    private String petPrefer;
 
-    //数量
+    @ApiModelProperty(value = "数量")
     private Integer number;
 
-    //金额
+    @ApiModelProperty(value = "金额")
     private BigDecimal amount;
 
-    //图片
+    @ApiModelProperty(value = "图片")
     private String image;
 
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;
 }

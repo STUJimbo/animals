@@ -12,23 +12,17 @@ import java.util.List;
  */
 public interface SetmealService extends IService<Setmeal> {
     /**
-     * 新增套餐，同时保存套餐和菜品的关联关系
-     *
-     * @param setmealDto
+     * 新增套餐，同时保存套餐和物品的关联关系
      */
-    void saveWithDish(SetmealDto setmealDto);
+    void saveWithGoods(SetmealDto setmealDto);
 
     /**
-     * 删除套餐，同时删除套餐和菜品的关联数据
-     *
-     * @param ids
+     * 删除套餐，同时删除套餐和物品的关联数据
      */
-    void removeWithDish(List<Long> ids);
+    void removeWithGoods(List<Long> ids);
 
     /**
-     * 修改套餐，同时修改套餐和菜品的关联数据
-     *
-     * @param setmealDto
+     * 修改套餐，同时修改套餐和物品的关联数据
      */
-    void updateWithDish(SetmealDto setmealDto);
+    void updateWithGoods(SetmealDto setmealDto);
 }

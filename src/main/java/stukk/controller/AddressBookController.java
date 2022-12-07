@@ -2,13 +2,15 @@ package stukk.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 import stukk.common.BaseContext;
 import stukk.common.R;
 import stukk.entity.AddressBook;
 import stukk.service.AddressBookService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,16 +21,15 @@ import java.util.List;
 @RestController
 @RequestMapping("/addressBook")
 @Slf4j
+@Api(tags = "用户收货地址管理（AddressBookController）")
 public class AddressBookController {
     @Autowired
     AddressBookService addressBookService;
 
     /**
      * 根据手机号获取用户的收货地址列表
-     *
-     * @param addressBook
-     * @return
      */
+    @ApiOperation(value = "根据手机号获取用户的收货地址列表")
     @GetMapping("/list")
     public R<List<AddressBook>> list(AddressBook addressBook) {
         addressBook.setUserId(BaseContext.getCurrentId());
@@ -45,10 +46,8 @@ public class AddressBookController {
 
     /**
      * 根据id获取用户收货地址信息
-     *
-     * @param id
-     * @return
      */
+    @ApiOperation(value = "根据id获取用户收货地址信息")
     @GetMapping("{id}")
     public R<AddressBook> get(@PathVariable String id) {
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
@@ -59,10 +58,8 @@ public class AddressBookController {
 
     /**
      * 保存修改后的收货地址
-     *
-     * @param addressBook
-     * @return
      */
+    @ApiOperation(value = "保存修改后的收货地址")
     @PutMapping
     public R<String> update(@RequestBody AddressBook addressBook) {
         addressBookService.updateById(addressBook);
@@ -71,10 +68,8 @@ public class AddressBookController {
 
     /**
      * 新增收货地址
-     *
-     * @param addressBook
-     * @return
      */
+    @ApiOperation(value = "新增收货地址")
     @PostMapping
     public R<AddressBook> save(@RequestBody AddressBook addressBook) {
         addressBook.setUserId(BaseContext.getCurrentId());
@@ -84,10 +79,8 @@ public class AddressBookController {
 
     /**
      * 根据id删除收货地址
-     *
-     * @param id
-     * @return
      */
+    @ApiOperation(value = "根据id删除收货地址")
     @DeleteMapping
     public R<String> delete(Long id) {
         addressBookService.removeById(id);
@@ -96,10 +89,8 @@ public class AddressBookController {
 
     /**
      * 设置默认地址
-     *
-     * @param addressBook
-     * @return
      */
+    @ApiOperation(value = "设置默认地址")
     @PutMapping("/default")
     public R<AddressBook> setDefault(@RequestBody AddressBook addressBook) {
         // 获取地址并修改默认状态0
@@ -118,9 +109,8 @@ public class AddressBookController {
 
     /**
      * 查找默认地址
-     *
-     * @return
      */
+    @ApiOperation(value = "查找默认地址")
     @GetMapping("/default")
     public R<AddressBook> getDefault() {
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();

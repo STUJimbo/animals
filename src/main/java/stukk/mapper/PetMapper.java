@@ -1,13 +1,13 @@
 package stukk.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import stukk.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
+import stukk.entity.Pet;
 
 /**
  * @author wenli
- * @create 2022-09-01 16:12
+ * @create 2022-12-06 15:23
  */
 @Mapper
-public interface CategoryMapper extends BaseMapper<Category> {
+public interface PetMapper extends BaseMapper<Pet> {
 }

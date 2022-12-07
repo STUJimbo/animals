@@ -1,33 +1,40 @@
 package stukk.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
+
 /**
  * 用户信息
  */
+@ApiModel("用户实体（User）")
 @Data
+@TableName("tb_user")
 public class User implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
     private Long id;
 
-    //姓名
+    @ApiModelProperty(value = "姓名")
     private String name;
 
-    //手机号
+    @ApiModelProperty(value = "手机号")
     private String phone;
 
-    //性别 0 女 1 男
+    @ApiModelProperty(value = "性别 0 女 1 男")
     private String sex;
 
-    //身份证号
+    @ApiModelProperty(value = "身份证号")
     private String idNumber;
 
-    //头像
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
-    //状态 0:禁用，1:正常
+    @ApiModelProperty(value = "状态 0:禁用，1:正常")
     private Integer status;
 }

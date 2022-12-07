@@ -2,14 +2,16 @@ package stukk.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import stukk.common.R;
-import stukk.entity.Employee;
-import stukk.service.EmployeeService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import stukk.common.R;
+import stukk.entity.Employee;
+import stukk.service.EmployeeService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 @Slf4j
 @RestController
 @RequestMapping("/employee")
+@Api(tags = "员工管理（EmployeeController）")
 public class EmployeeController {
 
     @Autowired
@@ -31,8 +34,8 @@ public class EmployeeController {
      *
      * @param request  将登录的员工id存入session
      * @param employee 存储根据用户名和密码查询到的员工信息
-     * @return
      */
+    @ApiOperation(value = "员工登录")
     @PostMapping("/login")
     public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee) {
         // 1.将页面提交的密码password进行MD5加密处理
@@ -64,6 +67,7 @@ public class EmployeeController {
         return R.success(emp);
     }
 
+    @ApiOperation(value = "员工退出登录")
     @PostMapping("/logout")
     public R<String> logout(HttpServletRequest request) {
         // 清除session中存储的员工id
@@ -75,23 +79,14 @@ public class EmployeeController {
      * 新增员工
      *
      * @param employee 存储新增员工信息
-     * @return
      */
+    @ApiOperation(value = "新增员工")
     @PostMapping
     public R<String> save(HttpServletRequest request, @RequestBody Employee employee) {
         log.info("新增员工，员工的信息为：{}", employee.toString());
 
         // 设置初始密码123456，需要MD5加密
         employee.setPassword(DigestUtils.md5DigestAsHex("123456".getBytes()));
-
-        // employee.setCreateTime(LocalDateTime.now());
-        // employee.setUpdateTime(LocalDateTime.now());
-
-        // 获取当前登录用户的id
-        // Long empId = (Long) request.getSession().getAttribute("employee");
-
-        // employee.setCreateUser(empId);
-        // employee.setUpdateUser(empId);
 
         employeeService.save(employee);
 
@@ -104,8 +99,8 @@ public class EmployeeController {
      * @param page     页码
      * @param pageSize 条数/页
      * @param name     检索条件
-     * @return
      */
+    @ApiOperation(value = "员工信息分页查询")
     @GetMapping("/page")
     public R<Page> page(int page, int pageSize, String name) {
         log.info("page = {}, pageSize = {}, name = {}", page, pageSize, name);
@@ -130,11 +125,8 @@ public class EmployeeController {
 
     /**
      * 根据id修改员工信息
-     *
-     * @param request
-     * @param employee
-     * @return
      */
+    @ApiOperation(value = "根据id修改员工信息")
     @PutMapping
     public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
         log.info(employee.toString());
@@ -142,9 +134,6 @@ public class EmployeeController {
         long id = Thread.currentThread().getId();
         log.info("线程id为：{}", id);
 
-//        Long empId = (Long) request.getSession().getAttribute("employee");
-//        employee.setUpdateTime(LocalDateTime.now());
-//        employee.setUpdateUser(empId);
         employeeService.updateById(employee);
 
         return R.success("员工信息修改成功！");
@@ -152,10 +141,8 @@ public class EmployeeController {
 
     /**
      * 根据id查询员工信息
-     *
-     * @param id
-     * @return
      */
+    @ApiOperation(value = "根据id查询员工信息")
     @GetMapping("/{id}")
     public R<Employee> getById(@PathVariable Long id) {
         Employee emp = employeeService.getById(id);

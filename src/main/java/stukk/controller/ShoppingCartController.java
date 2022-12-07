@@ -2,6 +2,8 @@ package stukk.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import stukk.common.BaseContext;
 import stukk.common.R;
 import stukk.entity.ShoppingCart;
@@ -20,29 +22,31 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping("/shoppingCart")
+@Api(tags = "购物车管理（ShoppingCartController）")
 public class ShoppingCartController {
     @Autowired
     private ShoppingCartService shoppingCartService;
 
     /**
      * 添加到购物车
-     *
-     * @param shoppingCart
-     * @return
      */
+    @ApiOperation(value = "添加到购物车")
     @PostMapping("/add")
     public R<ShoppingCart> add(@RequestBody ShoppingCart shoppingCart) {
         // 设置用户id
         Long currentId = BaseContext.getCurrentId();
         shoppingCart.setUserId(currentId);
 
-        // 判断菜品或套餐是否在购物车中
-        Long dishId = shoppingCart.getDishId();
+        // 判断宠物、套餐或用品是否在购物车中
+        Long petId = shoppingCart.getPetId();
+        Long goodId = shoppingCart.getGoodId();
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ShoppingCart::getUserId, currentId);
-        if (dishId != null) {
-            // 是菜品
-            queryWrapper.eq(ShoppingCart::getDishId, dishId);
+        if (petId != null) {
+            // 是宠物
+            queryWrapper.eq(ShoppingCart::getPetId, petId);
+        } else if (goodId != null) {
+            queryWrapper.eq(ShoppingCart::getGoodId, goodId);
         } else {
             queryWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());
         }
@@ -64,9 +68,8 @@ public class ShoppingCartController {
 
     /**
      * 查询购物车
-     *
-     * @return
      */
+    @ApiOperation(value = "查询购物车")
     @GetMapping("/list")
     public R<List<ShoppingCart>> list() {
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
@@ -80,9 +83,8 @@ public class ShoppingCartController {
 
     /**
      * 清空购物车
-     *
-     * @return
      */
+    @ApiOperation(value = "清空购物车")
     @DeleteMapping("/clean")
     public R<String> clean() {
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
@@ -94,23 +96,25 @@ public class ShoppingCartController {
     }
 
     /**
-     * 减少购物车中的套餐或菜品
-     *
-     * @param shoppingCart
-     * @return
+     * 减少购物车中的套餐或宠物
      */
+    @ApiOperation(value = "减少购物车")
     @PostMapping("/sub")
     public R<String> sub(@RequestBody ShoppingCart shoppingCart) {
-        Long dishId = shoppingCart.getDishId();
+        Long petId = shoppingCart.getPetId();
+        Long goodId = shoppingCart.getGoodId();
         LambdaUpdateWrapper<ShoppingCart> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());
 
         LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());
 
-        if (dishId != null) {
-            updateWrapper.eq(ShoppingCart::getDishId, dishId);
-            queryWrapper.eq(ShoppingCart::getDishId, dishId);
+        if (petId != null) {
+            updateWrapper.eq(ShoppingCart::getPetId, petId);
+            queryWrapper.eq(ShoppingCart::getPetId, petId);
+        } else if (goodId != null) {
+            updateWrapper.eq(ShoppingCart::getGoodId, goodId);
+            queryWrapper.eq(ShoppingCart::getGoodId, goodId);
         } else {
             updateWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());
             queryWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());

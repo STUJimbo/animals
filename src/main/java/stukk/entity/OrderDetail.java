@@ -1,5 +1,8 @@
 package stukk.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -8,34 +11,40 @@ import java.math.BigDecimal;
 /**
  * 订单明细
  */
+@TableName("tb_order_detail")
 @Data
+@ApiModel(value = "订单明细实体（OrderDetail）")
 public class OrderDetail implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    @ApiModelProperty(value = "主键ID")
     private Long id;
 
-    //名称
+    @ApiModelProperty(value = "名称")
     private String name;
 
-    //订单id
+    @ApiModelProperty(value = "订单id")
     private Long orderId;
 
-    //菜品id
-    private Long dishId;
+    @ApiModelProperty(value = "宠物ID")
+    private Long petId;
 
-    //套餐id
+    @ApiModelProperty(value = "物品ID")
+    private Long goodId;
+
+    @ApiModelProperty(value = "套餐id")
     private Long setmealId;
 
-    //口味
-    private String dishFlavor;
+    @ApiModelProperty(value = "快递配置")
+    private String petPrefers;
 
-    //数量
+    @ApiModelProperty(value = "数量")
     private Integer number;
 
-    //金额
+    @ApiModelProperty(value = "金额")
     private BigDecimal amount;
 
-    //图片
+    @ApiModelProperty(value = "图片")
     private String image;
 }
