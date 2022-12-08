@@ -101,12 +101,14 @@ public class ShoppingCartController {
     @ApiOperation(value = "减少购物车")
     @PostMapping("/sub")
     public R<String> sub(@RequestBody ShoppingCart shoppingCart) {
+        LambdaUpdateWrapper<ShoppingCart> updateWrapper = null;
+        LambdaQueryWrapper<ShoppingCart> queryWrapper = null;
         Long petId = shoppingCart.getPetId();
         Long goodId = shoppingCart.getGoodId();
-        LambdaUpdateWrapper<ShoppingCart> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());
 
-        LambdaQueryWrapper<ShoppingCart> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(ShoppingCart::getUserId, BaseContext.getCurrentId());
 
         if (petId != null) {
@@ -119,7 +121,12 @@ public class ShoppingCartController {
             updateWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());
             queryWrapper.eq(ShoppingCart::getSetmealId, shoppingCart.getSetmealId());
         }
-
+        if (shoppingCart.getId() != null) {
+            ShoppingCart cartServiceById = shoppingCartService.getById(shoppingCart);
+            cartServiceById.setNumber(cartServiceById.getNumber() - 1);
+            shoppingCartService.updateById(cartServiceById);
+            return R.success("成功刷新购物车！");
+        }
         ShoppingCart cartServiceOne = shoppingCartService.getOne(queryWrapper);
         int number = cartServiceOne.getNumber() - 1;
 

@@ -251,6 +251,7 @@
         el: '#main',
         data() {
             return {
+                type: 1,
                 //左边分类类别index
                 activeType: 0,
                 typeList: [
@@ -285,7 +286,8 @@
                 dialogFlavor: {
                     name: '',
                     prefers: [],
-                    dishId: undefined,
+                    petId: undefined,
+                    goodId: undefined,
                     price: undefined,
                     show: false,
                     image: ''
@@ -346,10 +348,13 @@
                             this.typeId = res[0].data[0].id
                             if (res[0].data[0].type === 1) {
                                 this.getDishList()
+                                this.type = 1
                             } else if (res[0].data[0].type === 2) {
                                 this.getSetmealData()
+                                this.type = 2
                             } else {
                                 this.getGoodsList()
+                                this.type = 3
                             }
                         }
                     } else {
@@ -369,10 +374,13 @@
                 this.typeId = id
                 if (type === 1) {//宠物
                     this.getDishList()
+                    this.type = 1
                 } else if (type === 2) { // 套餐
                     this.getSetmealData()
+                    this.type = 2
                 } else {
                     this.getGoodsList();
+                    this.type = 3
                 }
             },
             //获取菜品数据
@@ -387,7 +395,7 @@
                     if (petList.length > 0 && cartData.length > 0) {
                         petList.forEach(dish => {
                             cartData.forEach(cart => {
-                                if (dish.id === cart.dishId) {
+                                if (dish.id === cart.petId) {
                                     dish.number = cart.number
                                 }
                             })
@@ -433,8 +441,8 @@
                     if (petList.length > 0 && cartData.length > 0) {
                         petList.forEach(good => {
                             cartData.forEach(cart => {
-                                if (good.id === cart.dishId) {
-                                    dish.number = cart.number
+                                if (good.id === cart.goodId) {
+                                    good.number = cart.number
                                 }
                             })
                         })
@@ -458,13 +466,18 @@
                 let params = {
                     amount: item.price / 100,//金额
                     dishFlavor: item.dishFlavor,//口味  如果没有传undefined
-                    dishId: undefined,//菜品id
+                    petId: undefined,//菜品id
                     setmealId: undefined,//套餐id
+                    goodId: undefined,
                     name: item.name,
                     image: item.image
                 }
                 if (Array.isArray(item.prefers)) {//表示是菜品
-                    params.dishId = item.id
+                    if (this.type === 1) {
+                        params.petId = item.id
+                    } else {
+                        params.goodId = item.id
+                    }
                 } else {//表示套餐 套餐没有口味
                     params.setmealId = item.id
                 }
@@ -473,6 +486,11 @@
                     this.petList.forEach(dish => {
                         if (dish.id === item.id) {
                             dish.number = res.data.number
+                        }
+                    })
+                    this.cartData.forEach(cart => {
+                        if (cart.id === item.id) {
+                            cart.number = res.data.number
                         }
                     })
                     if (this.setMealDialog.show) {
@@ -486,8 +504,15 @@
 
             //菜单中减少选中的商品
             async subtractCart(item) {
-                let params = {
-                    dishId: item.id,
+                let params;
+                if (this.type === 1) {
+                    params = {
+                        petId: item.id,
+                    }
+                } else if (this.type === 3) {
+                    params = {
+                        goodId: item.id,
+                    }
                 }
                 if (!Array.isArray(item.prefers)) {
                     params = {
@@ -498,11 +523,13 @@
                 if (res.code === 1) {
                     this.petList.forEach(dish => {
                         if (dish.id === item.id) {
-                            dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                            // dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                            dish.number = dish.number === 0 ? undefined : dish.number - 1
                         }
                     })
                     if (this.setMealDialog.show) {
-                        item.number = (res.data.number === 0 ? undefined : res.data.number)
+                        // item.number = (res.data.number === 0 ? undefined : res.data.number)
+                        item.number = item.number === 0 ? undefined : item.number - 1
                     }
                     this.getCartData()
                 } else {
@@ -519,17 +546,26 @@
             //购物车中增加商品数量
             async cartNumAdd(item) {
                 let params = {
+                    id: item.id,
                     amount: item.amount,//金额
                     dishFlavor: item.dishFlavor,//口味  如果没有传undefined
-                    dishId: item.dishId,//菜品id
-                    setmealId: item.setmealId,//套餐id
+                    petId: undefined,//菜品id
+                    setmealId: undefined,//套餐id
+                    goodId: undefined,
                     name: item.name,
                     image: item.image
+                }
+                if (this.type === 1) {
+                    params.petId = item.petId
+                } else if (this.type === 3) {
+                    params.goodId = item.goodId
+                } else {
+                    params.setmealId = item.setmealId
                 }
                 const res = await addCartApi(params)
                 if (res.code === 1) {
                     this.petList.forEach(dish => {
-                        if (dish.id === (item.dishId || item.setmealId)) {
+                        if (dish.id === (item.petId || item.setmealId || item.goodId)) {
                             dish.number = res.data.number
                         }
                     })
@@ -542,14 +578,24 @@
             //购物车中减少商品数量
             async cartNumberSubtract(item) {
                 let params = {
-                    dishId: item.dishId,
-                    setmealId: item.setmealId,
+                    id: item.id,
+                    petId: undefined,
+                    goodId: undefined,
+                    setmealId: undefined,
+                }
+                if (this.type === 1) {
+                    params.petId = item.id
+                } else if (this.type === 3) {
+                    params.goodId = item.id
+                } else {
+                    params.setmealId = item.id
                 }
                 const res = await updateCartApi(params)
                 if (res.code === 1) {
                     this.petList.forEach(dish => {
-                        if (dish.id === (item.dishId || item.setmealId)) {
-                            dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                        if (dish.id === (item.petId || item.setmealId || item.goodId)) {
+                            // dish.number = (res.data.number === 0 ? undefined : res.data.number)
+                            dish.number = dish.number === 0 ? undefined : dish.number - 1;
                         }
                     })
                     this.getCartData()
@@ -561,7 +607,7 @@
             //修改商品列表中的数据number
             changeDishList(item) {
                 for (let ele of this.petList) {
-                    if (ele.id === (item.setmealId || item.dishId)) {
+                    if (ele.id === (item.setmealId || item.petId || item.goodId)) {
                         ele.number = item.number
                     }
                 }
@@ -585,17 +631,24 @@
                 this.dialogFlavor = {
                     name: '',
                     prefers: [],
-                    dishId: undefined,
+                    petId: undefined,
+                    goodId: undefined,
                     price: undefined,
                     show: false
                 }
                 this.dialogFlavor = {
                     name: item.name,
                     prefers: item.prefers,
-                    dishId: item.id,
+                    petId: undefined,
+                    goodId: undefined,
                     price: item.price,
                     show: true,
                     image: item.image
+                }
+                if (this.type === 1) {
+                    this.dialogFlavor.petId = item.id
+                } else {
+                    this.dialogFlavor.goodId = item.id
                 }
             },
             flavorClick(flavor, item) {
@@ -621,7 +674,7 @@
                     this.addCart({
                         price: dialogFlavor.price,
                         dishFlavor: dishFlavor.join(","),
-                        id: dialogFlavor.dishId,
+                        id: dialogFlavor.petId !== undefined ? dialogFlavor.petId : dialogFlavor.goodId,
                         prefers: [],
                         image: dialogFlavor.image,
                         name: dialogFlavor.name

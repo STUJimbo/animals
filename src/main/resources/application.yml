@@ -31,3 +31,5 @@ mybatis-plus:
       id-type: ASSIGN_ID
 reggie:
   path: D:\img\
+knife4j:
+  enable: true

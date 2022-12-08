@@ -1,5 +1,7 @@
 package stukk.common;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,15 +13,20 @@ import java.util.Map;
  *
  * @param <T>
  */
+@ApiModel(value = "通用返回结果实体（R<T>）")
 @Data
 public class R<T> implements Serializable {
 
+    @ApiModelProperty(value = "编码：1成功，0和其它数字为失败")
     private Integer code; // 编码：1成功，0和其它数字为失败
 
+    @ApiModelProperty(value = "错误信息")
     private String msg; // 错误信息
 
+    @ApiModelProperty(value = "数据")
     private T data; // 数据
 
+    @ApiModelProperty(value = "动态数据")
     private Map map = new HashMap(); // 动态数据
 
     public static <T> R<T> success(T object) {
