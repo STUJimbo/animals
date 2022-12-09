@@ -42,31 +42,10 @@ const queryDishById = (id) => {
   })
 }
 
-// 获取菜品分类列表
+// 获取分类列表
 const getCategoryList = (params) => {
   return $axios({
     url: '/type/list',
-    method: 'get',
-    params
-  })
-}
-
-// 查菜品列表的接口
-const queryDishList = (params) => {
-  return $axios({
-    url: '/pet/list',
-    method: 'get',
-    params
-  })
-}
-
-// 文件down预览
-const commonDownload = (params) => {
-  return $axios({
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
-    },
-    url: '/common/download',
     method: 'get',
     params
   })

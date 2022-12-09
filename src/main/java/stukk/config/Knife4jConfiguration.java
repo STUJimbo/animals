@@ -1,5 +1,6 @@
 package stukk.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -7,14 +8,15 @@ import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @author wenli
  * @create 2022-12-05 17:31
  */
 @Configuration
-@EnableSwagger2WebMvc
+@EnableSwagger2
+@EnableKnife4j
 public class Knife4jConfiguration {
 
     @Bean(value = "defaultApi2")

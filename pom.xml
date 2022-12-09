@@ -4,44 +4,43 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <!-- Springboot 父工程 -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.5</version>
+        <version>2.4.5</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
+    <!-- 本项目 maven 坐标 -->
     <groupId>com.itheima</groupId>
     <artifactId>animals</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <!-- java 版本 -->
     <properties>
         <java.version>1.8</java.version>
     </properties>
 
     <dependencies>
 
+        <!-- springboot 启动依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
 
-        <!--  <dependency>
-             <groupId>mvn_resp.org.jsoup</groupId>
-             <artifactId>jsoup</artifactId>
-             <version>1.10.2</version>
-         </dependency>
-         <dependency>
-             <groupId>mvn_resp.junit</groupId>
-             <artifactId>junit</artifactId>
-             <version>4.13</version>
-             <scope>test</scope>
-         </dependency> -->
-
+        <!-- springboot 测试依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>2.7.0</version>
         </dependency>
 
         <!--引入Knife4j的官方start包,Swagger2基于Springfox2.10.5项目-->
@@ -49,45 +48,52 @@
             <groupId>com.github.xiaoymin</groupId>
             <!--使用Swagger2-->
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.9</version>
+            <version>2.0.5</version>
         </dependency>
 
+        <!-- springboot web 项目依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
             <scope>compile</scope>
         </dependency>
 
+        <!-- mybatis-plus框架 依赖 -->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>3.4.2</version>
         </dependency>
 
+        <!-- lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.20</version>
         </dependency>
 
+        <!-- fastjson 数据转json -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>1.2.76</version>
         </dependency>
 
+        <!-- 提供通用 api -->
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
             <version>2.6</version>
         </dependency>
 
+        <!-- mysql 数据库驱动 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
 
+        <!-- Druid 数据库连接池 -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
@@ -107,19 +113,55 @@
             <version>1.1.0</version>
         </dependency>
 
+        <!-- Redis -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
 
+        <!-- springboot 缓存功能 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
+        </dependency>
+
+        <!-- 七牛云（云存储） -->
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>qiniu-java-sdk</artifactId>
+            <version>[7.7.0, 7.10.99]</version>
+        </dependency>
+
+        <!-- 七牛云依赖第三方库 -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>3.14.2</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.8.5</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.qiniu</groupId>
+            <artifactId>happy-dns-java</artifactId>
+            <version>0.1.6</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
+            <!-- 打包插件 -->
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

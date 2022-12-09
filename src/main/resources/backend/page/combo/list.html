@@ -61,7 +61,7 @@
             <el-table-column prop="image" label="图片" align="center">
                 <template slot-scope="{ row }">
                     <el-image style="width: auto; height: 40px; border:none;cursor: pointer;" :src="getImage(row.image)"
-                              :preview-src-list="[ `/common/download?name=${row.image}` ]">
+                              :preview-src-list="[ `http://rmlt3awv4.hn-bkt.clouddn.com/${row.image}` ]">
                         <div slot="error" class="image-slot">
                             <img src="./../../images/noImg.png" style="width: auto; height: 40px; border:none;">
                         </div>
@@ -69,7 +69,7 @@
                 </template>
             </el-table-column>
             <el-table-column
-                    prop="categoryName"
+                    prop="typeName"
                     label="套餐分类"
             ></el-table-column>
             <el-table-column
@@ -180,7 +180,7 @@
                 })
             },
             getImage(image) {
-                return `/common/download?name=${image}`
+                return `http://rmlt3awv4.hn-bkt.clouddn.com/${image}`
             },
             handleQuery() {
                 this.page = 1;
