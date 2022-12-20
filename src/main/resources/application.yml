@@ -7,12 +7,12 @@ spring:
   datasource:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
-      url: jdbc:mysql://localhost:3307/animals?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
+      url: jdbc:mysql://172.16.36.102:3307/animals?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8
            &zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
       username: root
       password: root
   redis:
-    host: 127.0.0.1
+    host: 172.16.36.102
     port: 6379
     database: 0
     password: root@123456
@@ -30,7 +30,5 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: ASSIGN_ID
-reggie:
-  path: img/
 knife4j:
   enable: true

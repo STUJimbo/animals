@@ -106,6 +106,7 @@ public class QiNiuUtils {
         BucketManager bucketManager = new BucketManager(auth, cfg);
         try {
             bucketManager.delete(bucket, fileName);
+            System.out.println("删除成功，文件名为：" + fileName);
         } catch (QiniuException ex) {
             // 如果遇到异常，说明删除失败
             System.err.println(ex.code());

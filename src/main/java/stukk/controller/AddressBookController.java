@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,7 +50,7 @@ public class AddressBookController {
      */
     @ApiOperation(value = "根据id获取用户收货地址信息")
     @GetMapping("{id}")
-    public R<AddressBook> get(@PathVariable String id) {
+    public R<AddressBook> get(@ApiParam(value = "用户ID", required = true) @PathVariable String id) {
         LambdaQueryWrapper<AddressBook> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(AddressBook::getId, id);
         AddressBook addressBook = addressBookService.getOne(queryWrapper);

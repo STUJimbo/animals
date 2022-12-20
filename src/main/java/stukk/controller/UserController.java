@@ -5,6 +5,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import springfox.documentation.annotations.ApiIgnore;
 import stukk.common.R;
 import stukk.entity.User;
 import stukk.service.UserService;
@@ -86,7 +87,7 @@ public class UserController {
     public R<User> login(@ApiParam(value = "用户登录数据", required = true)
                          @RequestBody Map<String, String> map,
                          @ApiParam(value = "HttpSession对象")
-                         HttpSession session) {
+                         @ApiIgnore HttpSession session) {
         // 获取手机号
         String phone = map.get("phone");
         // 获取验证码

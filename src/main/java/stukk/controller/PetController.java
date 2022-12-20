@@ -20,6 +20,7 @@ import stukk.entity.Type;
 import stukk.service.PetPreferService;
 import stukk.service.PetService;
 import stukk.service.TypeService;
+import stukk.utils.QiNiuUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -37,9 +38,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/pet")
 @Api(tags = "宠物管理器（PetController）")
 public class PetController {
-    @Value("${reggie.path}")
-    private String basePath;
-
     @Resource
     private PetService petService;
 
@@ -189,9 +187,8 @@ public class PetController {
         }
 
         // 删除图片
-        for (String s : imgList) {
-            File file = new File(basePath + s);
-            file.delete();
+        for (String imgName : imgList) {
+            QiNiuUtils.deleteFileFromQiNiu(imgName);
         }
 
         // 删除宠物表对应的宠物信息

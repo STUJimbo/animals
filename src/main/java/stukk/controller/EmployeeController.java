@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 import stukk.common.R;
 import stukk.entity.Employee;
 import stukk.service.EmployeeService;
@@ -37,7 +38,7 @@ public class EmployeeController {
      */
     @ApiOperation(value = "员工登录")
     @PostMapping("/login")
-    public R<Employee> login(HttpServletRequest request, @RequestBody Employee employee) {
+    public R<Employee> login(@ApiIgnore HttpServletRequest request, @RequestBody Employee employee) {
         // 1.将页面提交的密码password进行MD5加密处理
         String password = employee.getPassword();
         password = DigestUtils.md5DigestAsHex(password.getBytes());
@@ -69,7 +70,7 @@ public class EmployeeController {
 
     @ApiOperation(value = "员工退出登录")
     @PostMapping("/logout")
-    public R<String> logout(HttpServletRequest request) {
+    public R<String> logout(@ApiIgnore HttpServletRequest request) {
         // 清除session中存储的员工id
         request.getSession().removeAttribute("employee");
         return R.success("退出成功！");
@@ -82,7 +83,7 @@ public class EmployeeController {
      */
     @ApiOperation(value = "新增员工")
     @PostMapping
-    public R<String> save(HttpServletRequest request, @RequestBody Employee employee) {
+    public R<String> save(@RequestBody Employee employee) {
         log.info("新增员工，员工的信息为：{}", employee.toString());
 
         // 设置初始密码123456，需要MD5加密
@@ -128,7 +129,7 @@ public class EmployeeController {
      */
     @ApiOperation(value = "根据id修改员工信息")
     @PutMapping
-    public R<String> update(HttpServletRequest request, @RequestBody Employee employee) {
+    public R<String> update(@RequestBody Employee employee) {
         log.info(employee.toString());
 
         long id = Thread.currentThread().getId();

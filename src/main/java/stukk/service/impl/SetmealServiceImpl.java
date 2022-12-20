@@ -12,6 +12,7 @@ import stukk.entity.SetmealGoods;
 import stukk.mapper.SetmealMapper;
 import stukk.service.SetmealGoodsService;
 import stukk.service.SetmealService;
+import stukk.utils.QiNiuUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -24,9 +25,6 @@ import java.util.stream.Collectors;
  */
 @Service("setmealService")
 public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> implements SetmealService {
-    @Value("${reggie.path}")
-    private String basePath;
-
     @Resource
     private SetmealGoodsService setmealGoodsService;
 
@@ -69,10 +67,8 @@ public class SetmealServiceImpl extends ServiceImpl<SetmealMapper, Setmeal> impl
         this.removeByIds(ids);
         // 删除套餐图片数据
         for (Setmeal setmeal : list) {
-            File file = new File(basePath + setmeal.getImage());
-            if (file != null) {
-                file.delete();
-            }
+            String image = setmeal.getImage();
+            QiNiuUtils.deleteFileFromQiNiu(image);
         }
         // 删除关系表中的数据
         LambdaQueryWrapper<SetmealGoods> lambdaQueryWrapper = new LambdaQueryWrapper<>();
